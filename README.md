@@ -9,7 +9,8 @@ Outdoorsy Command Line tool for displaying Outdoorsy user information. Visit htt
 options:
   -h, --help            show this help message and exit
   
-  -f FILE, --file FILE  Specify a new file to be uploaded to the Database. For example, C:\folder\file.csv Note: file needs to be either comma or pipe delimited
+  -f FILE, --file FILE  Specify a new file to be uploaded to the Database. For example, C:\folder\file.csv
+                        Note: file needs to be either comma or pipe delimited
  
   -d {comma,pipe}, --delimiter {comma,pipe}
                         To upload a file to the Database, specify the delimiter used in the file
