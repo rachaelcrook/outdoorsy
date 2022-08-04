@@ -51,31 +51,29 @@ def insert_csv_to_db(path, delimiter):
                 )
 
 
-
-def get_entries(user_input_sort):
-    # con = sqlite3.connect("customers.db")
-    # con.row_factory = sqlite3.Row
+def get_entries(sort_order):
     cur = connection.cursor()
-    sort_order = user_input_sort
+    # sort_order = user_input_sort
 
-    # since SQL parameters can't be used for anything other than values, this will be sorted in Python instead
-    # of inside the SQL statement to avoid SQL injection.
+    # since SQL parameters can't be used for anything other than values, this will be sorted in Python using the
+    # if/else statement below instead. This is to avoid SQL injection.
 
     sql = "SELECT first_name, last_name, email, vehicle_type, vehicle_name, vehicle_length" \
           " FROM customers ORDER BY first_name, last_name asc;"
     cur.execute(sql)
     rows = cur.fetchall()
 
+    # check if the user selected the option to sort by vehicle type or full name.
     if sort_order == "vehicle_type":
         sorted_list = sorted(rows, key=lambda row: row[3])
     else:
         sorted_list = rows
 
-    # print(sorted_list)
-
     return sorted_list
 
 
+# The format_result function is used to format the results returned from the database in a human-readable
+# table format.
 def format_results(results):
     table = tabulate(
         results,

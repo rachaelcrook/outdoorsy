@@ -1,7 +1,7 @@
 # outdoorsy
-```
-A demo command line tool for displaying information from a comma or tab delimited file.
 
+A demo command line tool for displaying information from a comma or tab delimited file.
+```
 usage: cli.py [-h] [-f FILE] [-d {comma,pipe}] [-v VIEW] [-s {name,vehicle_type}]
 
 Outdoorsy Command Line tool for displaying Outdoorsy user information. Visit https://github.com/rachaelcrook/outdoorsy for more information
