@@ -1,7 +1,7 @@
 # importing required modules
 import argparse
 
-from database import get_entries, create_table, format_results, insert_csv_to_db, parse_delimiter
+from database import get_entries, format_results, insert_csv_to_db, parse_delimiter
 
 
 def create_parser():
