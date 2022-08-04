@@ -1,6 +1,8 @@
 # importing required modules
 import argparse
+import sys
 
+from app import run_interactively
 from database import get_entries, format_results, insert_csv_to_db, parse_delimiter
 
 
@@ -45,6 +47,10 @@ def main():
     # Creating the parser and parsing the arguments
     parser = create_parser()
     args = parser.parse_args()
+
+    if len(sys.argv) == 1:
+        # Run interactively if no arguments are passed.
+        run_interactively()
 
     if args.file:
         input_path = args.file

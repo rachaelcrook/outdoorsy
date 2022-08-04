@@ -1,6 +1,13 @@
 # outdoorsy
 
 A demo command line tool for displaying information from a comma or tab delimited file.
+
+You can run this tool one of two ways. 
+
+1) Interactively - by calling python cli.py
+
+2) With command like arguments - See usage info below
+
 ```
 usage: python cli.py [-h] [-f FILE] [-d {comma,pipe}] [-v] [-s {name,vehicle_type}]
 
@@ -9,7 +16,8 @@ Outdoorsy Command Line tool for displaying Outdoorsy user information. Visit htt
 options:
   -h, --help            show this help message and exit
   
-  -f FILE, --file FILE  Specify a new file to be uploaded to the Database. For example, C:\folder\file.csv Note: file needs to be either comma or pipe delimited
+  -f FILE, --file FILE  Specify a new file to be uploaded to the Database. For example, C:\folder\file.csv
+                        Note: file needs to be either comma or pipe delimited
  
   -d {comma,pipe}, --delimiter {comma,pipe}
                         To upload a file to the Database, specify the delimiter used in the file
