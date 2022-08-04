@@ -29,6 +29,7 @@ def create_table():
 ); '''
         )
 
+
 def insert_csv_to_db(path, delimiter):
     field_names = ['first_name', 'last_name', 'email', 'vehicle_type', 'vehicle_name', 'vehicle_length']
     with open(path, 'r', encoding='utf-8') as csv_file:
