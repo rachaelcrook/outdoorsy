@@ -1,6 +1,13 @@
 # outdoorsy
 
 A demo command line tool for displaying information from a comma or tab delimited file.
+
+You can run this tool one of two ways. 
+
+1) Interactively - by calling python cli.py
+
+2) With command like arguments - See usage info below
+
 ```
 usage: python cli.py [-h] [-f FILE] [-d {comma,pipe}] [-v] [-s {name,vehicle_type}]
 
