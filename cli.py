@@ -31,7 +31,7 @@ def create_parser():
                         help="To upload a file to the Database, specify the delimiter used in the file")
 
     parser.add_argument("-v", "--view",
-                        required=False,
+                        required=False, action='store_true',
                         help="View the Outdoorsy Customer Table from the Database. Sorted by Fullname by Default")
 
     parser.add_argument("-s", "--sort",
