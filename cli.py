@@ -52,7 +52,7 @@ def main():
         # Run interactively if no arguments are passed.
         run_interactively()
 
-    if args.file:
+    if args.file and args.delimiter:
         input_path = args.file
         if args.delimiter:
             input_delimiter = args.delimiter
@@ -61,7 +61,9 @@ def main():
         else:
             # Print error to console
             print("You have entered an invalid option for the delimiter, please choose either comma or pipe.")
-        return
+        # return
+    if args.delimiter and not args.file:
+        print("Please specify both a file and delimiter. For example: python cli.py -f comma.csv -d comma")
 
     if args.view and not args.sort:
         results = get_entries('name')
