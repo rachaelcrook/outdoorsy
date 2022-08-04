@@ -1,4 +1,5 @@
 # outdoorsy
+```
 A demo command line tool for displaying information from a comma or tab delimited file.
 
 usage: cli.py [-h] [-f FILE] [-d {comma,pipe}] [-v VIEW] [-s {name,vehicle_type}]
@@ -13,3 +14,5 @@ options:
   -v VIEW, --view VIEW  View the Outdoorsy Customer Table from the Database. Sorted by Fullname by Default
   -s {name,vehicle_type}, --sort {name,vehicle_type}
                         Sort the database table by the Outdoorsy Customer's Fullname or Vehicle Type
+                       
+```
