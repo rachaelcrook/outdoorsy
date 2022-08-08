@@ -6,12 +6,18 @@ from tabulate import tabulate
 connection = sqlite3.connect("customers.db")
 connection.row_factory = sqlite3.Row
 
+class InvalidDelimiter(Exception):
+    pass
+
 
 def parse_delimiter(delimiter):
     if delimiter == "comma":
         delimiter = ","
     elif delimiter == "pipe":
         delimiter = "|"
+    else:
+        raise InvalidDelimiter
+
     return delimiter
 
 
@@ -83,3 +89,5 @@ def format_results(results):
 
     return table
 
+if __name__ == '__main__':
+    print("The database module should be imported, not ran directly.")

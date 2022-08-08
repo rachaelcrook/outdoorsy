@@ -15,18 +15,18 @@ def run_interactively():
     # using walrus operator to ask for user input directly in the while loop.
     while (user_input := input(menu)) != "3":
         if user_input == "1":
-            input_path = input("Enter the path to the comma or tab delimited file you would like to upload: ")
-            input_delimiter = input('Enter the delimiter "comma" or "tab" : ')
+            input_path = input("Enter the path to the comma or pipe delimited file you would like to upload: ")
+            input_delimiter = input('Enter the delimiter "comma" or "pipe" : ')
             delimiter = parse_delimiter(input_delimiter)
             try:
                 insert_csv = insert_csv_to_db(input_path, delimiter)
             except FileNotFoundError:
-                print(Fore.RED + f"no comma or tab delimited files were found at that path. Path entered was:"
-                                 f" {input_path} Please verify a comma or tab delimited file exists"
+                print(Fore.RED + f"no comma or pipe delimited files were found at that path. Path entered was:"
+                                 f" {input_path} Please verify a comma or pipe delimited file exists"
                                  f" at this path and try again.")
                 print(Style.RESET_ALL)
             except TypeError:
-                print(Fore.RED + f"The delimiter specified must be either comma or tab."
+                print(Fore.RED + f"The delimiter specified must be either comma or pipe."
                                  f" The delimiter entered was: {input_delimiter} Please try again.")
                 print(Style.RESET_ALL)
             else:
