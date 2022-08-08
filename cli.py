@@ -43,25 +43,26 @@ def create_parser():
     return parser
 
 
-def main():
+def parse_args(args):
     # Creating the parser and parsing the arguments
     parser = create_parser()
-    args = parser.parse_args()
+    parsed_args = parser.parse_args(args)
+    return parsed_args
 
+
+def main():
     if len(sys.argv) == 1:
         # Run interactively if no arguments are passed.
         run_interactively()
 
+    args = parse_args(sys.argv[1:])
+    print(sys.argv)
+
     if args.file and args.delimiter:
         input_path = args.file
-        if args.delimiter:
-            input_delimiter = args.delimiter
-            delimiter = parse_delimiter(input_delimiter)
-            insert_csv_to_db(input_path, delimiter)
-        else:
-            # Print error to console
-            print("You have entered an invalid option for the delimiter, please choose either comma or pipe.")
-        # return
+        delimiter = parse_delimiter(args.delimiter)
+        insert_csv_to_db(input_path, delimiter)
+
     if args.delimiter and not args.file:
         print("Please specify both a file and delimiter. For example: python cli.py -f comma.csv -d comma")
 
@@ -84,7 +85,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-

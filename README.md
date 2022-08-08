@@ -1,6 +1,6 @@
 # outdoorsy
 
-A demo command line tool for displaying information from a comma or tab delimited file.
+A demo command line tool for displaying information from a comma or pipe delimited file.
 
 You can run this tool one of two ways. 
 
