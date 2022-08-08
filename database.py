@@ -89,3 +89,5 @@ def format_results(results):
 
     return table
 
+if __name__ == '__main__':
+    print("The database module should be imported, not ran directly.")
