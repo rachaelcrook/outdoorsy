@@ -3,22 +3,14 @@ import re
 import sqlite3
 from tabulate import tabulate
 
+"""
+database.py contains the logic and functions to create a SQL Lite database (if it doesn't already exist) or connect
+to the existing database. It is used by app.py and cli.py when a new file is added or when the view option is selected.
+
+"""
+
 connection = sqlite3.connect("customers.db")
 connection.row_factory = sqlite3.Row
-
-class InvalidDelimiter(Exception):
-    pass
-
-
-def parse_delimiter(delimiter):
-    if delimiter == "comma":
-        delimiter = ","
-    elif delimiter == "pipe":
-        delimiter = "|"
-    else:
-        raise InvalidDelimiter
-
-    return delimiter
 
 
 def create_table():
@@ -79,8 +71,14 @@ def get_entries(sort_order):
     return sorted_list
 
 
-# The format_result function is used to format the results returned from the database in a human-readable
-# table format.
+"""
+
+The format_result functions are used to format data returned from the database into a table displayed to the user
+in a command line or terminal window. 
+
+"""
+
+
 def format_results(results):
     table = tabulate(
         results,
@@ -88,6 +86,39 @@ def format_results(results):
         tablefmt='psql')
 
     return table
+
+
+"""
+
+Invalid Delimiter is a custom exception to be raised when an invalid delimited is specified when running interactively.
+If an invalid delimiter is specified when running cli.py with arguments, an error message is returned automatically
+via the argparse library.
+
+"""
+
+
+class InvalidDelimiter(Exception):
+    pass
+
+
+"""
+
+The parse_delimiter function is referenced by cli.py and app.py when a delimiter is specified either with a 
+command line argument or when running interactively. 
+
+"""
+
+
+def parse_delimiter(delimiter):
+    if delimiter == "comma":
+        delimiter = ","
+    elif delimiter == "pipe":
+        delimiter = "|"
+    else:
+        raise InvalidDelimiter
+
+    return delimiter
+
 
 if __name__ == '__main__':
     print("The database module should be imported, not ran directly.")

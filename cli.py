@@ -5,6 +5,28 @@ import sys
 from app import run_interactively
 from database import get_entries, format_results, insert_csv_to_db, parse_delimiter
 
+"""
+This cli.py file contains all the logic for command line arguments being passed and references functions in app.py
+which contains the logic for running interactively from the command line. 
+
+To run interactively, run cli.py from the command line without flags.
+
+To run the program with arguments run cli.py with the necessary flags to either upload a new file to the database,
+view the current DB output with option flags to sort by name(default) or vehicle_type.
+
+For example:
+
+To upload a csv to the database.
+cli.py -f /folder/file.csv -d comma
+
+To view entries in the database sorted by Vehicle Type.
+cli.py -v -s vehicle_type
+
+To run in interactive mode:
+cli.py
+
+"""
+
 
 def create_parser():
     """Creates the Argument Parser Object and

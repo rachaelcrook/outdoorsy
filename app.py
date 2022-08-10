@@ -1,6 +1,14 @@
 from database import get_entries, create_table, format_results, insert_csv_to_db, parse_delimiter
 from colorama import Fore, Style
 
+"""
+
+app.py contains the functions to run the outdoorsy command line application interactively and is referenced by
+cli.py. 
+
+To run with with command line arguments, please see cli.py or run cli.py -h to view the required arguments. 
+
+"""
 
 def run_interactively():
     menu = '''Please select one of the following options:
