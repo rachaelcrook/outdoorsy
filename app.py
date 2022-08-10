@@ -10,6 +10,7 @@ To run with with command line arguments, please see cli.py or run cli.py -h to v
 
 """
 
+
 def run_interactively():
     menu = '''Please select one of the following options:
     1) Upload new file (comma or pipe delimited)
@@ -61,5 +62,3 @@ def run_interactively():
 
 if __name__ == "__main__":
     run_interactively()
-
-

@@ -28,6 +28,22 @@ def create_table():
         )
 
 
+"""
+
+The insert_csv_to_db function is referenced when a new comma or pipe delimited file is uploaded when running in 
+commandline or interactive mode. It parses the file into a dictionary and then inserts the data in a SQL Lite database.
+You could easily change the database to PostGres or another Database by editing the connections at the beginning of 
+this file and if needed modifying the SQL statements in this function, create_table, and get_entries.
+
+If any changes are needed to support other file types such as tab delimited files, the additional delimiter would need
+to be added to parse_delimiter in this file as well as create_parser in cli.py. 
+
+Any messages in cli.py and app.py would need to be updated to reflect the additional option as well.
+Lastly, a test function would need to be added to test_outdoorsy.py.
+
+"""
+
+
 def insert_csv_to_db(path, delimiter):
     field_names = ['first_name', 'last_name', 'email', 'vehicle_type', 'vehicle_name', 'vehicle_length']
     with open(path, 'r', encoding='utf-8') as csv_file:
