@@ -4,6 +4,15 @@ from cli import parse_args
 from database import parse_delimiter, InvalidDelimiter
 
 """
+
+test_outdoorsy.py contains test functions utilizing pytest to test parse args functionality is functioning as
+expected. It is recommended to run these tests after any changes to code, dependencies, or environment. 
+
+"""
+
+"""
+Format of testing functions:
+
 def test():
     # Arrange
         set anything up
