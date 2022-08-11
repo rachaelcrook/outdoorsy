@@ -1,7 +1,5 @@
 import pytest
-
-from cli import parse_args
-from database import parse_delimiter, InvalidDelimiter
+from src import parse_delimiter, InvalidDelimiter, parse_args
 
 """
 
