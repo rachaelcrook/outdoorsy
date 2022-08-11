@@ -1,5 +1,5 @@
 import pytest
-from src import parse_delimiter, InvalidDelimiter, parse_args
+from outdoorsy import parse_delimiter, InvalidDelimiter, parse_args
 
 """
 

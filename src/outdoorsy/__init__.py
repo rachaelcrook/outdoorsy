@@ -35,7 +35,6 @@ def main():
         run_interactively()
 
     args = parse_args(sys.argv[1:])
-    print(sys.argv)
 
     if args.file and args.delimiter:
         input_path = args.file
