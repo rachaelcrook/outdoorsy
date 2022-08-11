@@ -1,5 +1,5 @@
 from tabulate import tabulate
-from database import get_entries, create_table, insert_csv_to_db
+from .database import get_entries, create_table, insert_csv_to_db
 from colorama import Fore, Style
 import argparse
 

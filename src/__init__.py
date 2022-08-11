@@ -21,9 +21,12 @@ https://github.com/rachaelcrook/outdoorsy
 
 """
 
+# The InvalidDelimiter class below is imported in order for import references in tests to function,
+# but is not used in this __init__.py file directly.
+
 import sys
-from app import create_parser, run_interactively, format_results, parse_delimiter, parse_args, InvalidDelimiter
-from database import get_entries, insert_csv_to_db, create_table
+from .app import run_interactively, format_results, parse_delimiter, parse_args, InvalidDelimiter
+from .database import get_entries, insert_csv_to_db
 
 
 def main():

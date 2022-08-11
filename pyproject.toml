@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "outdoorsy"
-version = "0.0.2"
+version = "0.0.5"
 authors = [
   { name="Rachael Crook", email="rachaelc@linux.com" },
 ]
@@ -27,4 +27,4 @@ dependencies = [
 "Bug Tracker" = "https://github.com/rachaelcrook/outdoorsy/issues"
 
 [project.scripts]
-outdoorsy = "outdoorsy:main"
+outdoorsy = "src:main"
