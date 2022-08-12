@@ -102,7 +102,7 @@ outdoorsy -v -s name """)
 
     file_group.add_argument("-db", "--dbpath",
                             required=False,
-                            help="Path to create database. Defaults to current directory")
+                            help="Directory to create database. Defaults to current directory")
 
     view_group = parser.add_argument_group(title="options - View and Sort data")
 
