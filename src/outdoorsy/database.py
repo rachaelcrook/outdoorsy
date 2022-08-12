@@ -1,6 +1,7 @@
 import csv
 import re
 import sqlite3
+from colorama import Fore, Style
 
 """
 database.py contains the logic and functions to create a SQL Lite database (if it doesn't already exist) or connect
@@ -8,11 +9,10 @@ to the existing database. It is used by app.py when a new file is added or when 
 
 """
 
-connection = sqlite3.connect("customers.db")
-connection.row_factory = sqlite3.Row
 
-
-def create_table():
+def create_table(db_path="customers.db"):
+    connection = sqlite3.connect(db_path)
+    connection.row_factory = sqlite3.Row
     with connection:
         connection.execute(
             '''
@@ -42,7 +42,9 @@ To add support for files with other delimiters, such as tsv, do the following:
 """
 
 
-def insert_csv_to_db(path, delimiter):
+def insert_csv_to_db(path, delimiter, db_path="customers.db"):
+    connection = sqlite3.connect(db_path)
+    connection.row_factory = sqlite3.Row
     field_names = ['first_name', 'last_name', 'email', 'vehicle_type', 'vehicle_name', 'vehicle_length']
     with open(path, 'r', encoding='utf-8') as csv_file:
         reader = csv.DictReader(csv_file, fieldnames=field_names, delimiter=delimiter)
@@ -64,7 +66,9 @@ def insert_csv_to_db(path, delimiter):
                 )
 
 
-def get_entries(sort_order):
+def get_entries(sort_order, db_path="customers.db"):
+    connection = sqlite3.connect(db_path)
+    connection.row_factory = sqlite3.Row
     cur = connection.cursor()
 
     # since SQL parameters can't be used for anything other than values, this will be sorted in Python using the
@@ -72,14 +76,20 @@ def get_entries(sort_order):
 
     sql = "SELECT first_name, last_name, email, vehicle_type, vehicle_name, vehicle_length" \
           " FROM customers ORDER BY first_name, last_name asc;"
-    cur.execute(sql)
-    rows = cur.fetchall()
+    try:
+        cur.execute(sql)
+        rows = cur.fetchall()
 
-    # check if the user selected the option to sort by vehicle type or full name.
-    if sort_order == "vehicle_type":
-        sorted_list = sorted(rows, key=lambda row: row[3])
-    else:
-        sorted_list = rows
+        # check if the user selected the option to sort by vehicle type or full name.
+        if sort_order == "vehicle_type":
+            sorted_list = sorted(rows, key=lambda row: row[3].lower())
+        else:
+            sorted_list = rows
+
+    except sqlite3.OperationalError:
+        print(Fore.RED + f"Table does not exist. Upload a new file first!")
+        print(Style.RESET_ALL)
+        return
 
     return sorted_list
 
