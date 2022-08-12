@@ -40,7 +40,7 @@ import argparse
 
 # The version specified here is used in pyproject.toml for the package's version uploaded to pypi
 # and in the --version argparse argument below
-__version__ = '0.0.19'
+__version__ = '1.0.0'
 
 
 def create_parser():
@@ -102,7 +102,7 @@ outdoorsy -v -s name """)
 
     file_group.add_argument("-db", "--dbpath",
                             required=False,
-                            help="Path to create database. Defaults to current directory")
+                            help="Directory to create database. Defaults to current directory")
 
     view_group = parser.add_argument_group(title="options - View and Sort data")
 
