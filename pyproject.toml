@@ -1,0 +1,30 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "outdoorsy"
+version = "0.0.18"
+authors = [
+  { name="Rachael Crook", email="rachaelc@linux.com" },
+]
+description = "A demo command line tool for displaying information from a comma or pipe delimited file from a fictional Company named Outdoor.sy"
+readme = "README.md"
+license = { file="LICENSE" }
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+  "colorama>=0.4.5",
+  "tabulate>=0.8.10",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/rachaelcrook/outdoorsy"
+"Bug Tracker" = "https://github.com/rachaelcrook/outdoorsy/issues"
+
+[project.scripts]
+outdoorsy = "outdoorsy:main"
