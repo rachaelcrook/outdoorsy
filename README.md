@@ -111,6 +111,20 @@ outdoorsy -v -s vehicle_type
 outdoorsy -v -s name
 ```
 
+# Future Enhancements
+
+- Update --dbpath argument to --dbdir to make it clear the user needs to specify the directory
+- Add additional tests
+- Add logic to handle duplicate database entries
+- Add the ability to sort by any column
+- Depending on customer needs, add support for different headers and file types (outside of comma or pipe delimited)
+- Convert to click library (currently using argparse)
+- Build CI/CD pipeline for releases using GitHub Actions
+- Optimize the logic for argparse and interactive menu so that it's more efficient and avoid duplicates in code
+- Move the default used for db_path from the database functions to the argparse argument.
+This would allow efficiency gains in argparse and when running interactively since a dbpath would always be specified
+
+
 # License
 
 This program is licensed with an [MIT License](https://github.com/rachaelcrook/outdoorsy/blob/main/LICENSE).
