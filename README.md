@@ -59,7 +59,7 @@ options - Upload a new file.:
   -d {comma,pipe}, --delimiter {comma,pipe}
                         File's delimiter
   -db DBPATH, --dbpath DBPATH
-                        Path to create database. Defaults to current directory
+                        Directory to create database. Defaults to current directory
 
 options - View and Sort data:
   -v, --view            View the Outdoorsy Customer Table.
