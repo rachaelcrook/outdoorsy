@@ -1,15 +1,7 @@
-import os
-from os.path import exists
-import sqlite3
-from tabulate import tabulate
-from .database import get_entries, create_table, insert_csv_to_db
-from colorama import Fore, Style
-import argparse
-
 """
 
 This app.py file contains all the logic for command line arguments being passed as well running interactively
-from the command line. 
+from the command line.
 
 To run interactively, run outdoorsy from the command line without flags.
 
@@ -21,16 +13,34 @@ outdoorsy -h
 
 Examples:
 
-To upload a csv to the database.
+To upload a csv to the database:
 outdoorsy -f /folder/file.csv -d comma
 
-To view entries in the database sorted by Vehicle Type.
+To upload comma or pipe delimited file to database at specified location:
+outdoorsy -f /folder/file.csv -d comma -db /opt/database
+
+To view entries in the database sorted by Vehicle Type:
 outdoorsy -v -s vehicle_type
+
+To view entries in the database at specified location, sorted by Full Name:
+outdoorsy -v -s name -db /opt/database
 
 To run in interactive mode:
 outdoorsy
 
 """
+
+import os
+from os.path import exists
+import sqlite3
+from tabulate import tabulate
+from .database import get_entries, create_table, insert_csv_to_db
+from colorama import Fore, Style
+import argparse
+
+# The version specified here is used in pyproject.toml for the package's version uploaded to pypi
+# and in the --version argparse argument below
+__version__ = '0.0.19'
 
 
 def create_parser():
@@ -105,7 +115,7 @@ outdoorsy -v -s name """)
                             required=False,
                             help="Sort the database table by the Outdoorsy Customer's Fullname or Vehicle Type")
 
-    parser.add_argument('--version', action='version', version='%(prog)s 0.0.18')
+    parser.add_argument('--version', action='version', version=f'%(prog)s {__version__}')
 
     return parser
 
@@ -136,35 +146,42 @@ def run_interactively():
             input_delimiter = input('Enter the delimiter "comma" or "pipe" : ').lower()
             delimiter = parse_delimiter(input_delimiter)
             input_dbpath_option = input('Would you like to specify the DB Path? (Y/n): ').lower()
-            input_dbpath = input("Enter the path to create the Database: ")
+            if input_dbpath_option == "y":
+                input_dbpath = input("Enter the path to create the Database: ")
+                if exists(input_dbpath):
+                    try:
+                        dbpath = os.path.join(input_dbpath, "customers.db")
+                        create_table(dbpath)
+                        insert_csv_to_db(input_path, delimiter, dbpath)
+                        print(Fore.GREEN + f"File Uploaded successfully! Database is located at: "
+                                           f"{dbpath}")
+                        print(Style.RESET_ALL)
+                    except FileNotFoundError:
+                        print(Fore.RED + f"no comma or pipe delimited files were found at that path. Path entered was:"
+                                         f" {input_path} Please verify a comma or pipe delimited file exists"
+                                         f" at this path and try again.")
+                        print(Style.RESET_ALL)
+                    except sqlite3.OperationalError:
+                        print(Fore.RED + f"The path specified was not found. Please try again. Path: {input_dbpath}")
+                        print(Style.RESET_ALL)
 
-            if input_dbpath_option == 'y' and exists(input_dbpath):
-                try:
-                    dbpath = os.path.join(input_dbpath, "customers.db")
-                    create_table(dbpath)
-                    insert_csv_to_db(input_path, delimiter, dbpath)
-                except FileNotFoundError:
-                    print(Fore.RED + f"no comma or pipe delimited files were found at that path. Path entered was:"
-                                     f" {input_path} Please verify a comma or pipe delimited file exists"
-                                     f" at this path and try again.")
-                    print(Style.RESET_ALL)
-                except sqlite3.OperationalError:
-                    print(Fore.RED + f"The path specified was not found. Please try again. Path: {input_dbpath}")
-                    print(Style.RESET_ALL)
-
-                except TypeError:
-                    print(Fore.RED + f"The delimiter specified must be either comma or pipe."
-                                     f" The delimiter entered was: {input_delimiter} Please try again.")
-                    print(Style.RESET_ALL)
+                    except TypeError:
+                        print(Fore.RED + f"The delimiter specified must be either comma or pipe."
+                                         f" The delimiter entered was: {input_delimiter} Please try again.")
+                        print(Style.RESET_ALL)
                 else:
-                    print(Fore.RED + f"Something went terribly wrong and for some reason the file or delimiter "
-                                     f"specified isn't working. The delimiter entered was:  {input_delimiter} "
-                                     f" The path entered was: {input_path} Please try again.")
+                    print(Fore.RED + f"Error: The path specified to create the database does not exist. Please"
+                                     f"try again using a valid path. Path entered was: {input_dbpath}")
                     print(Style.RESET_ALL)
-            elif input_dbpath_option == 'n':
+
+            elif input_dbpath_option == "n":
                 try:
                     create_table()
                     insert_csv_to_db(input_path, delimiter)
+                    print(Fore.GREEN + f"File Uploaded successfully! Database is located in "
+                                       f"the current working directory: {os.getcwd()}")
+                    print(Style.RESET_ALL)
+
                 except FileNotFoundError:
                     print(Fore.RED + f"no comma or pipe delimited files were found at that path. Path entered was:"
                                      f" {input_path} Please verify a comma or pipe delimited file exists"
@@ -173,11 +190,6 @@ def run_interactively():
                 except TypeError:
                     print(Fore.RED + f"The delimiter specified must be either comma or pipe."
                                      f" The delimiter entered was: {input_delimiter} Please try again.")
-                    print(Style.RESET_ALL)
-                else:
-                    print(Fore.RED + f"Something went terribly wrong and for some reason the file or delimiter "
-                                     f"specified isn't working. The delimiter entered was:  {input_delimiter} "
-                                     f" The path entered was: {input_path} Please try again.")
                     print(Style.RESET_ALL)
             else:
                 print(Fore.RED + f"Please specify 'y' to specify the path to create the database or 'n' "
@@ -187,19 +199,23 @@ def run_interactively():
             custom_db_path = input("Did you previously set a custom DB Path? (Y/n): ").lower()
             if custom_db_path == "y":
                 input_dbpath = input("Please enter path to database: ")
-                if exists(input_dbpath):
+                dbpath = os.path.join(input_dbpath, "customers.db")
+                if exists(dbpath):
                     select_info = input("Would you like to sort by Full Name (1) or by Vehicle Type (2)?  (1|2): ")
                     if select_info == "1":
-                        dbpath = os.path.join(input_dbpath, "customers.db")
+                        # dbpath = os.path.join(input_dbpath, "customers.db")
                         create_table(dbpath)
                         results = get_entries('name', dbpath)
                         print(format_results(results))
                     elif select_info == "2":
-                        results = get_entries('vehicle_type', input_dbpath)
+                        results = get_entries('vehicle_type', dbpath)
                         print(format_results(results))
                     else:
                         print(Fore.RED + "Invalid option, please try again!")
                         print(Style.RESET_ALL)
+                else:
+                    print(Fore.RED + f"Error: Unable to locate database at path: {dbpath}. Please try again! ")
+                    print(Style.RESET_ALL)
             elif custom_db_path == "n":
                 select_info = input("Would you like to sort by Full Name (1) or by Vehicle Type (2)?  (1|2): ")
                 if select_info == "1":
