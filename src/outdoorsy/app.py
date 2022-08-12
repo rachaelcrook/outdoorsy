@@ -40,7 +40,7 @@ import argparse
 
 # The version specified here is used in pyproject.toml for the package's version uploaded to pypi
 # and in the --version argparse argument below
-__version__ = '0.0.19'
+__version__ = '1.0.0'
 
 
 def create_parser():
