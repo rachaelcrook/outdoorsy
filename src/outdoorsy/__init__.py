@@ -40,7 +40,7 @@ def main():
     # if troubleshooting issues with parsing args, uncomment the line below to see what args are being captured
     # print(sys.argv)
 
-    if args.file and args.delimiter:
+    if args.file and args.delimiter and not args.dbpath:
         input_path = args.file
 
         # check if the file specified in the -f argument exists first, if not throw an error.
@@ -79,7 +79,10 @@ def main():
             dbpath = os.path.join(args.dbpath, "customers.db")
             create_table(dbpath)
             insert_csv_to_db(args.file, delimiter, dbpath)
-            print(Fore.GREEN + f"File uploaded successfully to Database at path: {args.dbpath}")
+            print(Fore.GREEN + f"File uploaded successfully to Database at path: {args.dbpath}. \n"
+                               f"Note: this database path will need to be specified everytime you would like to view"
+                               f" the results. Otherwise, outdoorsy defaults to the current"
+                               f" path which is {os.getcwd()} .")
             print(Style.RESET_ALL)
         else:
             print(Fore.RED + f"Error: Could either \n1. Not find the comma or pipe delimited file at the path specified"
@@ -97,7 +100,7 @@ def main():
         print(Fore.RED + "Please specify both a view and sort argument. For example: outdoorsy -v -s vehicle_type")
         print(Style.RESET_ALL)
 
-    if args.view and args.sort:
+    if args.view and args.sort and not args.dbpath:
         sorted_by = args.sort
         if sorted_by == 'name':
             results = get_entries(sorted_by)
@@ -109,23 +112,26 @@ def main():
             print(Fore.RED + "Invalid option, please try again!")
             print(Style.RESET_ALL)
 
-    if args.view and args.sort and args.dbpath and exists(args.dbpath):
-        sorted_by = args.sort
-        if sorted_by == 'name':
-            dbpath = os.path.join(args.dbpath, "customers.db")
-            create_table(dbpath)
-            results = get_entries(sorted_by, dbpath)
-            print(format_results(results))
-        elif sorted_by == 'vehicle_type':
-            dbpath = os.path.join(args.dbpath, "customers.db")
-            create_table(dbpath)
-            results = get_entries(sorted_by, dbpath)
-            print(format_results(results))
+    if args.view and args.sort and args.dbpath:
+        if exists(args.dbpath):
+            sorted_by = args.sort
+            if sorted_by == 'name':
+                dbpath = os.path.join(args.dbpath, "customers.db")
+                create_table(dbpath)
+                results = get_entries(sorted_by, dbpath)
+                print(format_results(results))
+            elif sorted_by == 'vehicle_type':
+                dbpath = os.path.join(args.dbpath, "customers.db")
+                create_table(dbpath)
+                results = get_entries(sorted_by, dbpath)
+                print(format_results(results))
+            else:
+                print(Fore.RED + "Invalid option, please try again!")
+                print(Style.RESET_ALL)
         else:
-            print(Fore.RED + "Invalid option, please try again!")
+            print(Fore.RED + f"The path specified for the database path does not exist."
+                             f" Please try again. path: {args.dbpath}")
             print(Style.RESET_ALL)
-    else:
-        print(Fore.RED + "An error occurred. Please try again.")
 
 
 if __name__ == "__main__":

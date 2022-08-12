@@ -8,6 +8,7 @@ A demo command line tool for displaying information from a comma or pipe delimit
 
 - Use as command-line tool interactively or by passing arguments
 - Creates a local SQL Lite Database for storing files
+- Database is created from the running directory or optionally a specified flag
 - View database in a table format from the command-line
 - Sort by "Name" or "Vehicle Type" columns (from sample files)
 
@@ -41,7 +42,7 @@ outdoorsy -h
 usage:
 
 ```bash 
-usage: outdoorsy [-h] [-f FILE] [-d {comma,pipe}] [-v] [-s {name,vehicle_type}]
+usage: outdoorsy [-h] [-f FILE] [-d {comma,pipe}] [-db DBPATH] [-v] [-s {name,vehicle_type}] [--version]
 ```
 
 Outdoorsy Command Line tool for displaying Outdoorsy user information.
@@ -53,15 +54,17 @@ options:
   -h, --help            show this help message and exit
   --version             show program's version number and exit
 
-options - upload a new file.:
+options - Upload a new file.:
   -f FILE, --file FILE  Full path to file
-  -d {comma,pipe}       Specify file's delimiter
+  -d {comma,pipe}, --delimiter {comma,pipe}
+                        File's delimiter
+  -db DBPATH, --dbpath DBPATH
+                        Path to create database. Defaults to current directory
 
-options - view and sort data:
-  -v                    View the Outdoorsy Customer Table.
-  -s {name,vehicle_type}
-                        Sort the database table by the Outdoorsy Customer's Fullname or Vehicle Type
-                       
+options - View and Sort data:
+  -v, --view            View the Outdoorsy Customer Table.
+  -s {name,vehicle_type}, --sort {name,vehicle_type}
+                        Sort the database table by the Outdoorsy Customer's Fullname or Vehicle Type                       
 ```
 
 ### Examples
@@ -78,10 +81,22 @@ outdoorsy -f C:\folder\file.csv -d comma
 outdoorsy -f C:\folder\pipes.text -d pipe
 ```
 
+#### Upload Pipe delimited file to database created at specified path
+
+```bash
+outdoorsy -f C:\folder\pipes.text -d pipe -db C:\database\
+```
+
 #### View data that has previously been uploaded to the database
 
 ```bash
 outdoorsy -v
+```
+
+#### View data that has previously been uploaded to the database at specified path
+
+```bash
+outdoorsy -v -db C:\database\
 ```
 
 #### View data sorted by Vehicle Type
